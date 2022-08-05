@@ -115,8 +115,11 @@ void ArmHardwareInterface::cmdArmPosition(const ros::TimerEvent &e)
 	// cmdPos.positions.assign(actuator_commands_.begin(), actuator_commands_.end());
 	// pub_arm_pos.publish(cmdPos);
 
-	joint_positions_[i] = joint_position_commands_[i];
-	controller_manager_->update(ros::Time::now(), elapsed_time_);
+	for (int i = 0; i < num_joints_; ++i)
+	{
+		joint_positions_[i] = joint_position_commands_[i];
+		controller_manager_->update(ros::Time::now(), elapsed_time_);
+	}
 }
 
 void ArmHardwareInterface::init()
