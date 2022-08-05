@@ -107,13 +107,16 @@ void ArmHardwareInterface::armPositionCallBack(const sb_msgs::ArmPosition::Const
 
 void ArmHardwareInterface::cmdArmPosition(const ros::TimerEvent &e)
 {
+	ROS_INFO("-I- Timer Initiated Position Exchange");
 	elapsed_time_ = ros::Duration(e.current_real - e.last_real);
-	write(elapsed_time_);
 
 	// TODO: ihsan inspect lines below
-	sb_msgs::ArmPosition cmdPos;
-	cmdPos.positions.assign(actuator_commands_.begin(), actuator_commands_.end());
-	pub_arm_pos.publish(cmdPos);
+	// sb_msgs::ArmPosition cmdPos;
+	// cmdPos.positions.assign(actuator_commands_.begin(), actuator_commands_.end());
+	// pub_arm_pos.publish(cmdPos);
+
+	joint_positions_[i] = joint_position_commands_[i];
+	controller_manager_->update(ros::Time::now(), elapsed_time_);
 }
 
 void ArmHardwareInterface::init()
